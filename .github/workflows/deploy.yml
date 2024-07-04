@@ -94,12 +94,12 @@ jobs:
           path: ./chatgpt2scratch
       - uses: actions/checkout@v4
         with:
-          repository: champierre/scratch2webserialapi
-          path: ./scratch2webserialapi
-      - uses: actions/checkout@v4
-        with:
           repository: Diego-Luna/Microbit-Stretch3-Extensions
           path: ./Microbit-Stretch3-Extensions
+      - uses: actions/checkout@v4
+        with:
+          repository: champierre/scratch2webserialapi
+          path: ./scratch2webserialapi
       - run: sh ./scratch2webserialapi/install.sh
       - run: sh ./chatgpt2scratch/install.sh
       - run: sh ./geoscratch/install.sh
