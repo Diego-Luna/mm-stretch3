@@ -3,7 +3,7 @@ LF=${LF%_}
 GA_TAG="<title>MoonMakers</title>${LF}\
     <meta name=\"description\" content=\"MoonMakers Stretch3\" />${LF}\
 ${LF}\
-    <!-- Global site tag (gtag.js) - Google Analytics -->${LF}\
+    <!-- Global site tag (gtag.js) -->${LF}\
     <script>${LF}\
       window.dataLayer = window.dataLayer \|\| [];${LF}\
       function gtag(){dataLayer.push(arguments);}${LF}\
