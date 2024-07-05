@@ -1,4 +1,4 @@
-name: Deploy
+name: buildStretch3
 
 on:
   push:
@@ -16,6 +16,7 @@ jobs:
       # Instalar dependencias
       - name: Install Dependencies
         run: npm install
+        working-directory: ./stretch3
 
       # Clonar y ejecutar scripts de instalación de repositorios
       - name: Checkout and Install Dependencies
@@ -62,6 +63,7 @@ jobs:
 
       - name: Build Project
         run: NODE_OPTIONS=--openssl-legacy-provider npm run build
+        working-directory: ./stretch3
 
       - name: Modify Index HTML
         run: sh ./stretch3/modify_index_html.sh
@@ -71,5 +73,5 @@ jobs:
         uses: peaceiris/actions-gh-pages@v3
         with:
           ssh_key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
-          publish_dir: ./build
+          publish_dir: ./stretch3/build
           publish_branch: master
