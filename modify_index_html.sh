@@ -1,10 +1,9 @@
 LF=$(printf '\\\012_')
 LF=${LF%_}
-GA_TAG="<title>Stretch3\(ストレッチスリー\)</title>${LF}\
-    <meta name=\"description\" content=\"Stretch3\(ストレッチスリー\)は自作の拡張機能を使えるように改造したScratch\(スクラッチ\)です。音声認識\(スピーチ トゥー スクラッチ\)、ポーズの認識\(ポーズネット トゥー スクラッチ\)、画像や音声を学習させることができる機械学習\(エムエル トゥー スクラッチ\)、ChatGPT\(チャットジーピーティー トゥー スクラッチ\)などが使えるいろいろな拡張機能があります。\" />${LF}\
+GA_TAG="<title>MoonMakers</title>${LF}\
+    <meta name=\"description\" content=\"MoonMakers Stretch3\" />${LF}\
 ${LF}\
     <!-- Global site tag (gtag.js) - Google Analytics -->${LF}\
-    <script async src=\"https://www.googletagmanager.com/gtag/js?id=UA-105345-37\"></script>${LF}\
     <script>${LF}\
       window.dataLayer = window.dataLayer \|\| [];${LF}\
       function gtag(){dataLayer.push(arguments);}${LF}\
