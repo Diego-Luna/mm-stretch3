@@ -1,128 +1,75 @@
 name: Deploy
+
 on:
   push:
     branches:
       - source
-    tags:
-      - "!*"
 
 jobs:
   build-deploy:
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout Source
+        uses: actions/checkout@v4
+
+      # Instalar dependencias
+      - name: Install Dependencies
+        run: npm install
+
+      # Clonar y ejecutar scripts de instalación de repositorios
+      - name: Checkout and Install Dependencies
+        run: |
+          repositories=(
+            "champierre/ml2scratch"
+            "champierre/posenet2scratch"
+            "microbit-more/mbit-more-v2:stretch3"
+            "champierre/tm2scratch"
+            "champierre/tmpose2scratch"
+            "tfabworks/xcx-g2s:stretch3"
+            "champierre/scratch2maqueen"
+            "champierre/handpose2scratch"
+            "champierre/facemesh2scratch"
+            "con3office/pasorich"
+            "sugiura-lab/scratch3-qrcode"
+            "champierre/speech2scratch"
+            "champierre/ic2scratch"
+            "NorifumiOgawa/iftttWebhooks"
+            "Diego-Luna/microbitSerial"
+            "bricklife/scratch-lego-bluetooth-extensions"
+            "geolonia/x-geo-scratch"
+            "ichiroc/chatgpt2scratch"
+            "champierre/scratch2webserialapi"
+          )
+          for repo in "${repositories[@]}"; do
+            IFS=':' read -r -a parts <<< "$repo"
+            repo_path=${parts[0]}
+            repo_ref=${parts[1]:-}
+            repo_name=$(basename "$repo_path")
+            if [ -n "$repo_ref" ]; then
+              git clone -b "$repo_ref" --single-branch "https://github.com/$repo_path" "$repo_name"
+            else
+              git clone "https://github.com/$repo_path" "$repo_name"
+            fi
+            if [ -f "$repo_name/install.sh" ]; then
+              sh "$repo_name/install.sh"
+            fi
+          done
+
+      # Comandos de instalación específicos
+      - name: Add GA Tracking Code
+        run: sh ./stretch3/add_ga_tracking_code.sh
+
+      - name: Build Project
+        run: NODE_OPTIONS=--openssl-legacy-provider npm run build
+
+      - name: Modify Index HTML
+        run: sh ./stretch3/modify_index_html.sh
+
+      # Despliegue en GitHub Pages
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
         with:
-          repository: LLK/scratch-gui
-          ref: v3.6.18
-      - run: npm install
-      - uses: actions/checkout@v4
-        with:
-          path: ./stretch3
-      - uses: actions/checkout@v4
-        with:
-          repository: champierre/ml2scratch
-          path: ./ml2scratch
-      - uses: actions/checkout@v4
-        with:
-          repository: champierre/posenet2scratch
-          path: ./posenet2scratch
-      - uses: actions/checkout@v4
-        with:
-          repository: microbit-more/mbit-more-v2
-          ref: stretch3
-          path: ./microbitMore
-      - uses: actions/checkout@v4
-        with:
-          repository: champierre/tm2scratch
-          path: ./tm2scratch
-      - uses: actions/checkout@v4
-        with:
-          repository: champierre/tmpose2scratch
-          path: ./tmpose2scratch
-      - uses: actions/checkout@v4
-        with:
-          repository: tfabworks/xcx-g2s
-          ref: stretch3
-          path: ./xcx-g2s
-      - uses: actions/checkout@v4
-        with:
-          repository: champierre/scratch2maqueen
-          path: ./scratch2maqueen
-      - uses: actions/checkout@v4
-        with:
-          repository: champierre/handpose2scratch
-          path: ./handpose2scratch
-      - uses: actions/checkout@v4
-        with:
-          repository: champierre/facemesh2scratch
-          path: ./facemesh2scratch
-      - uses: actions/checkout@v4
-        with:
-          repository: con3office/pasorich
-          path: ./pasorich
-      - uses: actions/checkout@v4
-        with:
-          repository: sugiura-lab/scratch3-qrcode
-          path: ./scratch3-qrcode
-      - uses: actions/checkout@v4
-        with:
-          repository: champierre/speech2scratch
-          path: ./speech2scratch
-      - uses: actions/checkout@v4
-        with:
-          repository: champierre/ic2scratch
-          path: ./ic2scratch
-      - uses: actions/checkout@v4
-        with:
-          repository: NorifumiOgawa/iftttWebhooks
-          path: ./iftttWebhooks
-      - uses: actions/checkout@v4
-        with:
-          repository: Diego-Luna/microbitSerial
-          path: ./microbitSerial
-      - uses: actions/checkout@v4
-        with:
-          repository: bricklife/scratch-lego-bluetooth-extensions
-          path: ./scratch-lego-bluetooth-extensions
-      - uses: actions/checkout@v4
-        with:
-          repository: geolonia/x-geo-scratch
-          path: ./geoscratch
-      - uses: actions/checkout@v4
-        with:
-          repository: ichiroc/chatgpt2scratch
-          path: ./chatgpt2scratch
-      - uses: actions/checkout@v4
-        with:
-          repository: champierre/scratch2webserialapi
-          path: ./scratch2webserialapi
-      - run: sh ./scratch2webserialapi/install.sh
-      - run: sh ./chatgpt2scratch/install.sh
-      - run: sh ./geoscratch/install.sh
-      - run: sh ./scratch-lego-bluetooth-extensions/scripts/install.sh duplotrain
-      - run: sh ./microbitSerial/install.sh
-      - run: sh ./iftttWebhooks/install.sh
-      - run: sh ./ic2scratch/install.sh
-      - run: sh ./speech2scratch/install.sh
-      - run: sh ./scratch3-qrcode/install.sh
-      - run: sh ./pasorich/install.sh
-      - run: sh ./handpose2scratch/install.sh
-      - run: sh ./facemesh2scratch/install.sh
-      - run: sh ./scratch2maqueen/install.sh
-      - run: sh ./xcx-g2s/scripts/stretch3-install.sh
-      - run: sh ./tmpose2scratch/install.sh
-      - run: sh ./tm2scratch/install.sh
-      - run: sh ./microbitMore/install-stretch3.sh
-      - run: sh ./posenet2scratch/install.sh
-      - run: sh ./ml2scratch/install.sh
-      - run: sh ./stretch3/add_ga_tracking_code.sh
-      # TODO: ERR_OSSL_EVP_UNSUPPORTED エラーに対処するため、
-      # NODE_OPTIONS を設定しているが、いずれは外したい。
-      # Ref. https://zenn.dev/yogarasu/articles/425732ff408d06
-      - run: NODE_OPTIONS=--openssl-legacy-provider npm run build
-      - run: sh ./stretch3/modify_index_html.sh
-      - uses: peaceiris/actions-gh-pages@v3
-        with:
-          deploy_key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
+          ssh_key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
           publish_dir: ./build
           publish_branch: master
