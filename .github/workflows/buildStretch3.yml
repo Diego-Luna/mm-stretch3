@@ -79,10 +79,10 @@ jobs:
         with:
           repository: con3office/numberbank
           path: ./numberbank
-      - uses: actions/checkout@v4
-        with:
-          repository: Diego-Luna/microbitSerial
-          path: ./microbitSerial
+      # - uses: actions/checkout@v4
+      #   with:
+      #     repository: Diego-Luna/microbitSerial
+      #     path: ./microbitSerial
       - uses: actions/checkout@v4
         with:
           repository: bricklife/scratch-lego-bluetooth-extensions
@@ -104,7 +104,7 @@ jobs:
       - run: sh ./geoscratch/install.sh
       - run: sh ./scratch-lego-bluetooth-extensions/scripts/install.sh duplotrain
       - run: sh ./numberbank/install.sh
-      - run: sh ./microbitSerial/install.sh
+      # - run: sh ./microbitSerial/install.sh
       - run: sh ./iftttWebhooks/install.sh
       - run: sh ./ic2scratch/install.sh
       - run: sh ./speech2scratch/install.sh
