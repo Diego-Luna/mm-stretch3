@@ -16,7 +16,7 @@ jobs:
       # Instalar dependencias
       - name: Install Dependencies
         run: npm install
-        working-directory: ./stretch3
+        working-directory: stretch3/
 
       # Clonar y ejecutar scripts de instalación de repositorios
       - name: Checkout and Install Dependencies
