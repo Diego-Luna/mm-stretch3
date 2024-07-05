@@ -119,7 +119,7 @@ jobs:
       - run: sh ./microbitMore/install-stretch3.sh
       - run: sh ./posenet2scratch/install.sh
       - run: sh ./ml2scratch/install.sh
-      - run: sh ./Microbit-Stretch3-Extensions/scripts/stretch3-install.sh
+      - run: sh ./Microbit-Stretch3-Extensions/install.sh
       - run: sh ./stretch3/add_ga_tracking_code.sh
       # TODO: ERR_OSSL_EVP_UNSUPPORTED エラーに対処するため、
       # NODE_OPTIONS を設定しているが、いずれは外したい。
