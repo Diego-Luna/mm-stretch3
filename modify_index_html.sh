@@ -18,8 +18,6 @@ ${LF}\
     </script>${LF}\
 "
 
-# Mover el archivo original
-mv build/index.html build/index.html_orig
 
 # Reemplazar la etiqueta <title> y agregar el script de Google Analytics
 sed -e "s|<title>Scratch 3.0 GUI</title>|${GA_TAG}|g" build/index.html_orig > build/index.html
@@ -27,15 +25,14 @@ sed -e "s|<title>Scratch 3.0 GUI</title>|${GA_TAG}|g" build/index.html_orig > bu
 # Reemplazar el logo de Scratch con el logo personalizado usando una expresión regular
 sed -i -e "s|<img id=\"logo_img\"[^>]*src=\"[^\"]*\"|<img id=\"logo_img\" alt=\"BlockCode\" class=\"menu-bar_scratch-logo_2uReV menu-bar_clickable_1g3uo\" draggable=\"false\" src=\"static/assets/BlockCode-logo.svg\"|g" build/index.html
 
-# Mover el archivo logo.svg al directorio build/static/assets/
-mv ./stretch3/logo.svg build/static/assets/
+# Mover el archivo pages-logo.svg al directorio build/static/assets/
+mv ./stretch3/pages-logo.svg build/static/assets/
 
 # Reemplazar el ícono de la aplicación (favicon) en el archivo HTML
 # Busca el enlace de favicon existente y reemplázalo con el nuevo logo
-sed -i -e "s|<link rel=\"icon\"[^>]*href=\"[^\"]*\"|<link rel=\"icon\" href=\"static/assets/logo.svg\"|g" build/index.html
+sed -i -e "s|<link rel=\"icon\"[^>]*href=\"[^\"]*\"|<link rel=\"icon\" href=\"static/assets/pages-logo.svg\"|g" build/index.html
 
 mv ./stretch3/BlockCode-logo.svg build/static/assets/
 
-pwd
-
-ls -al
+# Mover el archivo original
+mv build/index.html build/index.html_orig
