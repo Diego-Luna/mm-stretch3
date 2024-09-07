@@ -10,9 +10,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
+          # repository: LLK/scratch-gui
           repository: Diego-Luna/scratch-gui
           ref: v3.6.18
-          # repository: LLK/scratch-gui
       - run: npm install
       - uses: actions/checkout@v4
         with:
